@@ -1,0 +1,30 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "CRUD Experiment Server",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taybluetooth/crud-experiment.git"
+  },
+  "keywords": [
+    "CRUD"
+  ],
+  "type": "module",
+  "author": "Callum Taylor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taybluetooth/crud-experiment/issues"
+  },
+  "homepage": "https://github.com/taybluetooth/crud-experiment#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
