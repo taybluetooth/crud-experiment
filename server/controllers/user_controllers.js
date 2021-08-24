@@ -8,12 +8,13 @@ const UserController = {
     getUsers(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
-            console.log(`CONNECTED AS ID: ${connection.threadId}`);
             connection.query("SELECT * FROM users", (err, rows) => {
                 connection.release();
                 if (!err) {
+                    res.status(200);
                     res.send(rows);
                 } else {
+                    res.status(404);
                     console.log(err);
                 }
             });
@@ -23,14 +24,16 @@ const UserController = {
     insertUsers(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
-            console.log(`CONNECTED AS ID: ${connection.threadId}`);
+            const {id, firstName, lastName, age, nationality} = req.body;
             connection.query(
-                "INSERT INTO users VALUES (1, 'Callum', 'Taylor', 20, 'Scottish')",
+                `INSERT INTO users VALUES (${id}, ${firstName}, ${lastName}, ${age}, ${nationality})`,
                 (err, rows) => {
                     connection.release();
                     if (!err) {
+                        res.status(201);
                         res.send(rows);
                     } else {
+                        res.status(400);
                         console.log(err);
                     }
                 }
