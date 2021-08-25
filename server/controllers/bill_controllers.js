@@ -3,16 +3,15 @@ import dbConfig from "../config/db_config.js";
 
 const pool = mysql.createPool(dbConfig);
 
-const UserController = {
+const BillController = {
 
-    getUsers(req, res) {
+    getBills(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
-            connection.query("SELECT * FROM users", (err, rows) => {
+            connection.query("SELECT * FROM bills", (err, rows) => {
                 connection.release();
                 if (!err) {
-                    res.status(200);
-                    res.send(rows);
+                    res.status(200).send(rows);
                 } else {
                     res.status(404);
                     console.log(err);
@@ -21,12 +20,20 @@ const UserController = {
         });
     },
 
-    insertUsers(req, res) {
+    insertBills(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
-            const {id, firstName, lastName, age, nationality} = req.body;
+            const {
+                id,
+                rent,
+                water,
+                gas,
+                electricity,
+                broadband,
+                council_tax
+            } = req.body;
             connection.query(
-                `INSERT INTO users VALUES (${id}, ${firstName}, ${lastName}, ${age}, ${nationality})`,
+                `INSERT INTO bills VALUES (${id}, ${rent}, ${water}, ${gas}, ${electricity}, ${broadband}, ${council_tax})`,
                 (err, rows) => {
                     connection.release();
                     if (!err) {
@@ -35,12 +42,12 @@ const UserController = {
                     } else {
                         res.status(400);
                         console.log(err);
-                    }
-                }
+                    };
+                },
             );
-        });
+        }, );
     },
 
 }
 
-export default UserController;
+export default BillController;
