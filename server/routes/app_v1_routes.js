@@ -7,5 +7,6 @@ const router = Express.Router();
 router.get('/bills', BillController.get);
 router.post('/bills/add', BillController.insert);
 router.delete('/bills/delete', BillController.delete);
+router.put('/bills/update', BillController.update);
 
 export default router;
