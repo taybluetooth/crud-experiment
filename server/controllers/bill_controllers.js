@@ -1,6 +1,13 @@
 import mysql from "mysql";
 import dbConfig from "../config/db_config.js";
+import fs from "fs";
+import * as path from 'path';
 
+// Global Directory Declaration
+const __dirname = path.resolve();
+// Long SQL Query Files As Raw Strings
+const updateSql = fs.readFileSync(path.join(__dirname, '/sql', 'update_bill.sql').toString()).toString();
+// MySQL Connection Pool
 const pool = mysql.createPool(dbConfig);
 
 const BillController = {
@@ -54,7 +61,7 @@ const BillController = {
                 council_tax
             } = req.body;
             connection.query(
-                `UPDATE bills SET rent=COALESCE(?, rent), water=COALESCE(?, water), gas=COALESCE(?, gas), electricity=COALESCE(?, electricity), broadband=COALESCE(?, broadband), council_tax=COALESCE(?, council_tax) WHERE id=?`,
+                updateSql,
                 [rent, water, gas, electricity, broadband, council_tax, id],
                 (err, rows) => {
                     connection.release();
