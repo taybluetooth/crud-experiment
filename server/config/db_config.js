@@ -3,7 +3,7 @@ const dbConfig = {
   host: "localhost",
   user: "root",
   password: "password",
-  database: "automation_db",
+  database: "ecommerce_db",
 };
 
 export default dbConfig;

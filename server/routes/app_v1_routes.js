@@ -1,12 +1,12 @@
 import Express from "express";
-import BillController from "../controllers/bill_controllers.js";
+import ProductController from "../controllers/product_controllers.js";
 
 const router = Express.Router();
 
 // User Routes
-router.get('/bills', BillController.get);
-router.post('/bills/add', BillController.insert);
-router.delete('/bills/delete', BillController.delete);
-router.put('/bills/update', BillController.update);
+router.get('/products', ProductController.get);
+router.post('/product/add', ProductController.insert);
+router.delete('/product/delete', ProductController.delete);
+router.put('/product/update', ProductController.update);
 
 export default router;

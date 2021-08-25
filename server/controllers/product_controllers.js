@@ -6,19 +6,19 @@ import * as path from 'path';
 // Global Directory Declaration
 const __dirname = path.resolve();
 // Long SQL Query Files As Raw Strings
-const updateSql = fs.readFileSync(path.join(__dirname, '/sql', 'update_bill.sql').toString()).toString();
+const updateSql = fs.readFileSync(path.join(__dirname, '/sql', 'update_product.sql').toString()).toString();
 // MySQL Connection Pool
 const pool = mysql.createPool(dbConfig);
 
-const BillController = {
+const ProductController = {
 
     get(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
-            connection.query(`SELECT * FROM bills`, (err, rows) => {
+            connection.query(`SELECT * FROM products`, (err, rows) => {
                 connection.release();
                 if (!err) {
-                    console.log('SERVER SUCCESSFULLY FETCHED ALL BILLS FROM DATABASE.');
+                    console.log('SERVER SUCCESSFULLY FETCHED ALL PRODUCTS FROM DATABASE.');
                     res.status(200).send(rows);
                 } else {
                     res.status(404);
@@ -33,11 +33,11 @@ const BillController = {
             if (err) throw err;
             const data = req.body;
             connection.query(
-                `INSERT INTO bills SET ?`, data,
+                `INSERT INTO products SET ?`, data,
                 (err, rows) => {
                     connection.release();
                     if (!err) {
-                        console.log('SERVER INSERTED BILL INTO DATABASE.');
+                        console.log('SERVER INSERTED PRODUCT INTO DATABASE.');
                         res.status(201).send(rows);
                     } else {
                         res.status(400);
@@ -53,20 +53,18 @@ const BillController = {
             if (err) throw err;
             const {
                 id,
-                rent,
-                water,
-                gas,
-                electricity,
-                broadband,
-                council_tax
+                name,
+                price,
+                type,
+                image,
             } = req.body;
             connection.query(
                 updateSql,
-                [rent, water, gas, electricity, broadband, council_tax, id],
+                [name, price, type, image, id],
                 (err, rows) => {
                     connection.release();
                     if (!err) {
-                        console.log('SERVER SUCCESSFULLY UPDATED BILL IN DATABASE.');
+                        console.log('SERVER SUCCESSFULLY UPDATED PRODUCT IN DATABASE.');
                         res.status(200).send(rows);
                     } else {
                         res.status(400);
@@ -84,7 +82,7 @@ const BillController = {
                 id
             } = req.body;
             connection.query(
-                `DELETE FROM bills WHERE id=?`,
+                `DELETE FROM products WHERE id=?`,
                 [id],
                 (err, rows) => {
                     connection.release();
@@ -102,4 +100,4 @@ const BillController = {
 
 }
 
-export default BillController;
+export default ProductController;
