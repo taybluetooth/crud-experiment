@@ -5,7 +5,7 @@ const pool = mysql.createPool(dbConfig);
 
 const BillController = {
 
-    getBills(req, res) {
+    get(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
             connection.query("SELECT * FROM bills", (err, rows) => {
@@ -20,7 +20,7 @@ const BillController = {
         });
     },
 
-    insertBills(req, res) {
+    insert(req, res) {
         pool.getConnection((err, connection) => {
             if (err) throw err;
             const {
@@ -41,6 +41,26 @@ const BillController = {
                         res.send(rows);
                     } else {
                         res.status(400);
+                        console.log(err);
+                    };
+                },
+            );
+        }, );
+    },
+
+    delete(req, res) {
+        pool.getConnection((err, connection) => {
+            if (err) throw err;
+            const { id } = req.body;
+            connection.query(
+                `DELETE FROM bills WHERE id=${id}`,
+                (err, rows) => {
+                    connection.release();
+                    if (!err) {
+                        res.status(200);
+                        res.send(rows);
+                    } else {
+                        res.status(406);
                         console.log(err);
                     };
                 },
